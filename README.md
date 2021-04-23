@@ -1,4 +1,4 @@
-# Higher Education Map Instruction
+# Higher Education Map Instructions
 
 
 ## Install
