@@ -1,0 +1,383 @@
+.he-map{
+background-color: lightgray;
+height: 35em;
+margin: 2em 0;
+}
+
+.he-wrapper a,
+.he-wrapper a:link,
+.he-wrapper a:visited{
+color: #002F6C;
+}
+
+.single-project-wrapper {
+border-bottom: 1px solid #002F6C;
+padding: 2em 0;
+}
+
+.he-wrapper h2 {
+color: #002F6C;
+}
+
+.current-country {
+margin-bottom: 1em;
+font-size: 1.5em;
+color: #999;
+}
+
+.project-description, .project-dates, .project-implementorname, .project-edulevel, .project-edulevel, .project-agency {
+margin-bottom: 1em;
+}
+
+.project-description {
+color: #666;
+line-height: 1.4em;
+margin-bottom: 1em;
+display: block;
+}
+
+.project-implementorname, .project-subawardees, .project-edulevel, .project-agency {
+display:block;
+}
+
+.project-dates {
+display: inline-block;
+background: #eee;
+}
+
+/* support list */
+.coordination-list {
+    display: flex;
+}
+
+.coordination-list, .coordination-list .support-header{
+    border-bottom:1px solid #888;
+}
+
+.coordination-list .coordination-header{
+    height: 100px;
+    padding: 5px; 
+}
+.coordination-list .coordination-result{
+    border-bottom:1px solid #888;
+}
+.coordination-cell {
+    text-align: center;
+    min-height: 30px;
+}
+
+/* skip link */
+.skip-link {
+left:-999px;
+position:absolute;
+top:auto;
+width:1px;
+height:1px;
+overflow:hidden;
+z-index:-999;
+}
+
+.skip-link:focus, .skip-link:active {
+background-color:#eee;
+position:relative;
+bottom: -10px;
+left: auto;
+top: auto;
+height: auto;
+overflow:auto;
+padding:5px;
+border:1px solid #888;
+text-align:center;
+z-index:999;
+}
+
+
+
+
+.ui-accordion-content{
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.ui-accordion .ui-accordion-header{
+    margin-top: .5em;
+}
+
+.ui-state-hover {
+border:none;
+}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
+
+border: none;
+background: #A7C6ED;
+font-weight: inherit;
+}
+
+.ui-corner-all, .ui-corner-top, .ui-corner-left, .ui-corner-tl {
+border-top-left-radius: 0;
+}
+
+.ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr {
+border-top-right-radius: 0;
+}
+
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
+border-bottom-right-radius: 0;
+}
+
+.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
+border-bottom-left-radius: 0;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
+border: none;
+}
+/* end overrides for jquery UI */
+
+
+/* RTABLE FLIP */
+/*!
+// CSS only Responsive Tables
+// http://dbushell.com/2016/03/04/css-only-responsive-tables/
+// by David Bushell
+*/
+.rtable {
+    /*!
+    // IE needs inline-block to position scrolling shadows otherwise use:
+    // display: block;
+    // max-width: min-content;
+    */
+    display: inline-block;
+    vertical-align: top;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  
+  .rtable,
+  .rtable--flip tbody {
+    -webkit-overflow-scrolling: touch;
+    background: radial-gradient(left, ellipse, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 75%) 0 center, radial-gradient(right, ellipse, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 75%) 100% center;
+    background-size: 10px 100%, 10px 100%;
+    background-attachment: scroll, scroll;
+    background-repeat: no-repeat;
+  }
+  
+  .rtable td:first-child,
+  .rtable--flip tbody tr:first-child {
+    background-image: linear-gradient(to right, white 50%, rgba(255, 255, 255, 0) 100%);
+    background-repeat: no-repeat;
+    background-size: 20px 100%;
+  }
+  
+  .rtable td:last-child,
+  .rtable--flip tbody tr:last-child {
+    background-image: linear-gradient(to left, white 50%, rgba(255, 255, 255, 0) 100%);
+    background-repeat: no-repeat;
+    background-position: 100% 0;
+    background-size: 20px 100%;
+  }
+  
+  .rtable--flip {
+    display: flex;
+    overflow: hidden;
+    background: none;
+  }
+  
+  .rtable--flip thead {
+    display: flex;
+    flex-shrink: 0;
+    min-width: -webkit-min-content;
+    min-width: -moz-min-content;
+    min-width: min-content;
+  }
+  
+  .rtable--flip tbody {
+    display: flex;
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  
+  .rtable--flip tr {
+    display: flex;
+    flex-direction: column;
+    min-width: -webkit-min-content;
+    min-width: -moz-min-content;
+    min-width: min-content;
+    flex-shrink: 0;
+  }
+  
+  .rtable--flip td,
+  .rtable--flip th {
+    display: block;
+  }
+  
+  .rtable--flip td {
+    background-image: none !important;
+    border-left: 0;
+  }
+  
+  /* END RTABLE FLIP */
+
+.support-table{
+width: 100%;
+}
+
+.support-table td {
+text-align: center;
+}
+
+.support-table th{
+text-align:left;
+}
+
+.support-row-header {
+text-align: center;
+text-transform: uppercase;
+}
+
+.supporting-agencies{
+font-weight: bold;
+}
+
+.coordination-checked svg{
+fill: #0067B9;
+}
+
+svg.box {
+fill: #b30021;
+height: 11px;
+padding: 0;
+border: none;
+}
+
+.rtable th, .rtable td {
+height: 2em;
+font-weight: normal;
+}
+
+.rtable--flip tbody {
+width: 100%;
+border-bottom: 1px solid #888;
+}
+
+.he-wrapper th, .he-wrapper td {
+  border: initial;
+  padding: inherit;
+}
+
+.he-wrapper .support-row-header,.he-wrapper .top-left {
+border-bottom: 1px solid #888;
+}
+
+.coordination-list .coordination-header {
+border-bottom: 1px solid #888;
+margin-bottom: .5em;
+text-align:center;
+}
+
+.rtable--flip tbody {
+  justify-content: space-between;
+}
+
+.rtable--flip tr {
+  flex-grow: 1;
+}
+
+.test2{
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% { opacity: .5; }
+}
+
+.controls div{
+  padding: 1em;
+  text-align: center;
+  background: lightgrey;
+  margin: 1px;
+  display: inline-block;
+}
+
+.controls div.selected{
+  background: #516692;
+  color: white;
+}
+.controls div:hover{
+  background:#516692;
+  color: white;
+  cursor: pointer;
+}
+.controls {
+  width: 520px;
+  margin-bottom: 1em;
+}
+
+.detailedmap {
+  fill: #A7C6ED;
+}
+
+.usg-map #country-wrapper .detailed, .usg-map #projects-wrapper{
+  display: none;
+}
+
+#country-wrapper.show .detailed, #projects-wrapper.show {
+  display: inline;
+}
+
+#country-wrapper.show .overview {
+  display: none;
+}
+
+.legend i, .legend2 i {
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin: 0 8px 0 0;
+}
+
+.legend2, .mapfilter{
+  display:none;
+}
+
+.leaflet-control h4 {
+  margin: 0 0 1.2em;
+}
+
+.mapfilter.leaflet-control {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 5px;
+}
+
+.state{
+  text-transform: inherit;
+}
+
+/* overriding styles in theme */
+.he-wrapper {
+  line-height: initial;
+}
+
+.he-wrapper *{
+/* fix for animated elements */
+  -webkit-transition-duration: 0s;
+  -moz-transition-duration: 0s;
+  -o-transition-duration: 0s;
+  transition-duration: 0s;
+}
+
+.he-wrapper h2{
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: 1.7em;
+}
+
+.legend.leaflet-control{
+  background-color: transparent; 
+  border-top:0 ;
+  margin: auto;
+  padding: auto;
+}

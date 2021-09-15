@@ -35,7 +35,7 @@
 
         <!-- HE Map Script & CSS -->
         <script type="text/javascript" src="scripts/he_map_script.js"></script>
-        <link rel="stylesheet" href="scripts/he-map.css">
+        <link rel="stylesheet" href="scripts/map_usg.css">
 
 5. Then add these lines of code into the header following, modifying the url to match where you've uploaded them (e.g. again replace `scripts/`):
 
