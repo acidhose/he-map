@@ -7,7 +7,7 @@ $(document).ready(function () {
     //jsonlink is being called to in header
     //let jsonlink = 'scripts/data.json';
 
-    var prevLayerClicked = null;
+    // var prevLayerClicked = null;
     var prevPinClicked = null;
     let usaidRed = "#BA0C2F";
     let usaidLightBlue = "#A7C6ED";
@@ -21,13 +21,13 @@ $(document).ready(function () {
 			let description = data[i].description;
             let country = data[i].country;
             let sector = data[i].sector;
-            // console.log (sector);
             countries.push(country);
             countries2.push([country, sector]);
         });
 
         var countriesList = [...new Set(countries)];
         var countriesList2 = [...new Set(countries2)];
+        console.log("countries list ---v");
         console.log(countriesList2);
 
         /* Build Select List */
@@ -75,13 +75,12 @@ $(document).ready(function () {
                     // add to result
                     programResult += '<div class="wrap"><h2 class="project-name">' + name + '</h2>';
                     programResult += '<div><span class="project-description">' + description + '</span>';
-                    // programResult += '<div> Subsector: '  + subsector + '</span>';
                     programResult += '<span class="project-dates">' + start + ' &ndash; ' + end + '</span>';
-                    if (subawardees!='') { programResult += '<span class="project-subawardees"><strong>Subawardees:</strong> ' + subawardees + '</span>';}
+                    if (subawardees!='') {programResult += '<span class="project-subawardees"><strong>Subawardees:</strong> ' + subawardees + '</span>';}
                     programResult += '<br><div><strong>Sector:</strong> ' + sector + '</span></div>';
-                    if (implementorname!='') { programResult += '<span class="project-implementorname"><strong>Implementor:</strong> ' + implementorname + '</span>';}
-                    if (subsector!='') { programResult += '<div><strong>Subsector:</strong> ' + subsector + '</div>';}
-                    if (link!='') { programResult += '<br><span class="project-subawardees"><a href="' + link + '" target="_blank" title="Link opens in a new window">Link to Project</a></span>';}
+                    if (subsector!='') {programResult += '<div><strong>Subsector:</strong> ' + subsector + '</div>';}
+                    if (implementorname!='') {programResult += '<span class="project-implementorname"><strong>Implementor:</strong> ' + implementorname + '</span>';}
+                    if (link!='') {programResult += '<br><span class="project-subawardees"><a href="' + link + '" target="_blank" title="Link opens in a new window">Link to Project</a></span>';}
                     programResult += '</div></div>';
                 }
 
@@ -107,7 +106,12 @@ $(document).ready(function () {
                         prevLayerClicked.setStyle(solidStyle);
                         map.closePopup();
                     }
-                    layer.setStyle({ 'fillColor' : usaidRed });
+                    layer.setStyle(selectStyle);
+
+                    // bring to front
+                    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                        layer.bringToFront();
+                    }
                     prevLayerClicked = layer;                    
                 }
 
@@ -139,83 +143,76 @@ $(document).ready(function () {
 
         });
         
+    //on change filter / begin function change filter
+
+    $('#sector-filter').on('change', function() {
+        // console.log(geojson);
+        changeFilter();
+    });
+
+    function changeFilter (){
+        console.log("changed!");
+        // const terms = '';
+
+        supportFilter = $('#sector-filter').val();
+        // console.log(supportFilter);
+
+        geojson.eachLayer(function (layer) {
+            let supportProperty = layer.feature.properties["support"];
+            layer.setStyle({fillColor : 'gray'});
+
+            if (supportFilter == 'none'){
+                layer.setStyle({fillColor : usaidLightBlue});
+            }
+            else {
+                if (supportProperty){
+                    if ( supportProperty.includes(supportFilter) ){
+                    // if (supportFilter == supportProperty){
+                        // console.log ("YES!!");
+                        layer.setStyle({fillColor : usaidLightBlue});
+                    }
+                    // if (supportFilter != supportProperty){
+                    // }
+                }
+            }
+        });
+    } // end function change filter
+        
         var othercountries = '';
         //iterate through countriesMap variable
         // var geojson = L.geoJSON(countriesMap, {style: solidStyle, onEachFeature: onEachFeature})
         var geojson = L.geoJSON(countriesMap, {onEachFeature: onEachFeature})
             .eachLayer(function (layer) {
                 let thislayercountry = layer.feature.properties.name;
-
-                // console.log(countriesList2);
-
                 var int = 0;
+                
+                // console.log(countriesList2); 
+                // console.log(thislayercountry); 
+
                 if (exists(countriesList2, thislayercountry) ){ //checking 2 dim array    
-                    // layer.addTo(map); //adds countries to map
+                // if (exists(countriesList2, thislayercountry) ){ //checking 2 dim array    
                     layer.addTo(map).setStyle(solidStyle); //adds countries to map
                     
+                    let supportHolder =  [];
+                
                     countriesList2.forEach(e => {
+                        if (e[0] == thislayercountry && e[1] !== undefined) { //if country matches other list
+                            let supportTerm = e[1];
+                            // layer.feature.properties["support"] += e[1] + ', ';
 
-                        // console.log ('hi');
-                        // console.log(e);
-
-                        if (e[0] == thislayercountry) { //if country matches other list
-                            layer.feature.properties["support"] = e[1];
-
-                            // // first round with country registar data in object
-                            // if (int == 0){
-                            //     layer.feature.properties["support"] = e[1];
-                            //     layer.feature.properties["preprimary"] = e[2];
-                            //     layer.feature.properties["primary"] = e[3];
-                            //     layer.feature.properties["secondary"] = e[4];
-                            //     layer.feature.properties["wfdsupport"] = e[6];
-                            //     layer.feature.properties["systems"] = e[7];
-
-                            //     layer.feature.properties[e[8]] = []; //set up array
-                            //     layer.feature.properties[e[8]].push(e[2], e[3], e[4], e[6], e[7]);
-
-                            //     if (e[8] != ''){
-                            //         layer.feature.properties["agencies"] = e[8];
-                            //     }
-
-                            //     layer.bindTooltip('<strong>' + layer.feature.properties.name + '</strong>' + '<br>Number of Supporting Agencies: ' + e[1]);
-                            // }
-
-                            // // other rounds
-                            // else{
-                            //     if (e[2] == 1){layer.feature.properties["preprimary"]++;} 
-                            //     if (e[3] == 1){layer.feature.properties["primary"]++;} 
-                            //     if (e[4] == 1){layer.feature.properties["secondary"]++;} 
-                            //     if (e[6] == 1){layer.feature.properties["wfdsupport"]++;} 
-                            //     if (e[7] == 1){layer.feature.properties["systems"]++;} 
-                                
-                            //     layer.feature.properties[e[8]] = []; //set up array
-                            //     layer.feature.properties[e[8]].push(e[2], e[3], e[4], e[6], e[7]);
-
-                            //     if (e[8] != ''){
-                            //         if (layer.feature.properties["agencies"]){
-                            //             layer.feature.properties["agencies"] += ' ' + e[8];
-                            //         }
-                            //         else {
-                            //             layer.feature.properties["agencies"] = e[8];
-                            //         }
-                            //     }
-                            // }
-
-                            // //set color based on # of supporting agencies
-                            // // layer.setStyle(colorstyle(layer.feature));
-                            // //
-
-                            // layer.setStyle(detailedBaseStyle);
-                            // changeFilter();
-
-                            int++;
+                            //could be improved to not add this every time
+                            if ( supportHolder.includes(supportTerm) == false){
+                                supportHolder.push(e[1]);
+                                layer.feature.properties["support"] = supportHolder;
+                            }
+                            
+                            int++; 
                         }
-                    
-                });
+                    });
             }
 
-            function exists(arr, search) {                
-                // return arr.some(row => row == search); //returns true
+            function exists(arr, search) {
+                console.log(arr.some(row => row.includes(search))); 
                 return arr.some(row => row.includes(search)); //returns true
             }
 
@@ -224,65 +221,34 @@ $(document).ready(function () {
                 .on('click', function(layer) {
                     $('#countries-select').val(thislayercountry).trigger('change');
                     console.log(this);
+                    console.log(this.feature.properties.support);
                 })
             othercountries += thislayercountry;
-        });//L.geoJSON eachLayer function
+
+    }); //L.geoJSON eachLayer function
 
 
-// New 
-let prevLayerClicked = null;
-        
-function resetHighlight(e) {
-    let layer = e.target;
-    layer.setStyle({ fillOpacity: 1 });
-}
+    // New 
+    let prevLayerClicked = null;
+            
+    function resetHighlight(e) {
+        let layer = e.target;
+        layer.setStyle({ fillOpacity: 1 });
+    }
 
-function highlightFeature(e) {
-    let layer = e.target;
-    layer.setStyle({ fillOpacity: 0.5 });
-}
+    function highlightFeature(e) {
+        let layer = e.target;
+        layer.setStyle({ fillOpacity: 0.5 });
+    }
 
-function onEachFeature(feature, layer) {
-    layer.on({
-        mouseover: highlightFeature,
-        mouseout: resetHighlight,
-    });
-}
+    function onEachFeature(feature, layer) {
+        layer.on({
+            mouseover: highlightFeature,
+            mouseout: resetHighlight,
+        });
+    }
 
-// end new 
-        // // var prevLayerClicked = null;
-        // function clickFeature(e) {
-        //     var layer = e.target;
-
-        //     layer.setStyle({ "fillColor": "#BA0C2F" })
-        //     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-        //         layer.bringToFront();
-        //     }
-        //     if (prevLayerClicked !== null) {
-        //         prevLayerClicked.setStyle(solidStyle);
-        //     }
-        //     prevLayerClicked = layer;
-        // }
-        
-        // function resetHighlight(e) {
-        //     var layer = e.target;
-        //     layer.setStyle({ color: '#fff' });
-        // }
-
-        // function highlightFeature(e) {
-        //     var layer = e.target;
-        //     layer.setStyle({ color: '#BA0C2F' });
-        //     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-        //         layer.bringToFront();
-        //     }
-        // }
-
-        // function onEachFeature(feature, layer) {
-        //     layer.on({
-        //         mouseover: highlightFeature,
-        //         mouseout: resetHighlight,
-        //     });
-        // }
+    // end new 
 
         /*
         Add Pins to the Map
@@ -314,18 +280,6 @@ function onEachFeature(feature, layer) {
     });//end $.getJSON(jsonlink, function (data) {
     
 
-    //on change filter
-
-    // On change check the other boxes if they are checked or not
-    // Then check against other formulae
-    $('#support-filter').on('change', function() {
-        changeFilter();
-    });
-
-    function changeFilter() {
-        console.log ("change filter!!!")
-    }
-
     // leafletjs init map
     var map = L.map('map').setView([0, 0], 2);
 
@@ -342,7 +296,7 @@ function onEachFeature(feature, layer) {
     mapfilters.onAdd = function(map) {
         var filtercontrol = L.DomUtil.create('div', 'mapfilter');
         filtercontrol.innerHTML += '<h4>Sector:</h4>';
-        filtercontrol.innerHTML += '<select id="sector-filter"><option value="none">None Selected</option><option value="agriculture">Agriculture & Food Security</option><option value="climate">Climate & Environment</option><option value="democracy">Democracy & Governance</option><option value="economic">Economic Growth</option><option value="education">Education</option><option value="energy">Energy</option><option value="health">Global Health</option><option value="media">Media & Journalism</option><option value="research">Research & Innovation</option><option value="stem">Science, Technology, Engineering, and Mathematics (STEM)</option><option value="water">Water & Sanitation</option><option value="youth">Youth</option></select>';
+        filtercontrol.innerHTML += '<select id="sector-filter"><option value="none">None Selected</option><option value="Agriculture & Food Security">Agriculture & Food Security</option><option value="Climate & Environment">Climate & Environment</option><option value="Democracy & Governance">Democracy & Governance</option><option value="Economic Growth">Economic Growth</option><option value="Education">Education</option><option value="Energy">Energy</option><option value="Global Health">Global Health</option><option value="Media & Journalism">Media & Journalism</option><option value="Research & Innovation">Research & Innovation</option><option value="Science, Technology, Engineering, and Mathematics (STEM)">Science, Technology, Engineering, and Mathematics (STEM)</option><option value="Water & Sanitation">Water & Sanitation</option><option value="Youth">Youth</option></select>';
 
         return filtercontrol;
     };
@@ -350,111 +304,6 @@ function onEachFeature(feature, layer) {
     mapfilters.addTo(map);
     $(".mapfilter").show();
 
-
-    //on change filter
-
-    // On change check the other boxes if they are checked or not
-    // Then check against other formulae
-    $('#sector-filter').on('change', function() {
-        changeFilter();
-    });
-
-    function changeFilter (){
-        console.log("changed!");
-        const terms = '';
-
-        supportFilter = $('#sector-filter').val();
-        
-
-        geojson.eachLayer(function (layer) {
-            // let agencies = layer.feature.properties["agencies"];
-            
-            let containsSupportTerms = false; 
-
-            // if (agencies) {
-            //     containsSupportTerms = terms.every(term => agencies.includes(term));
-            // }
-
-            if (supportFilter == "none" && terms == '' ){
-                layer.setStyle({fillColor : 'gray'});
-            }
-
-            else if(supportFilter == "none"){
-                if(containsSupportTerms) {
-                    layer.setStyle({fillColor : usaidLightBlue})
-                }
-                else {
-                    layer.setStyle({fillColor : 'gray'})
-                }
-            }
-            
-
-            else if (terms == '' && supportFilter != "none"){
-
-                if(layer.feature.properties[supportFilter] >= 1 && containsSupportTerms) {
-                    layer.setStyle({
-                        fillColor : usaidLightBlue
-                    });
-                }
-                else {
-                    layer.setStyle({fillColor : 'gray'})
-                }
-
-            }
-            
-            else{
-                //loop through the terms selected
-                let counter = 0;
-                let arrayLength = terms.length;
-                
-                for (let i = 0; i < arrayLength; ) {
-                    
-                    let term = terms[i];
-
-                    if (layer.feature.properties[term]){ //check if object has term
-                        
-                        // note this could be improved with keys on the objects
-                        // counter is iterated when a match occurs
-                        if (supportFilter == 'preprimary' && layer.feature.properties[term][0] == 1 ) {
-                            counter++;
-                        }
-                        if (supportFilter == 'primary' && layer.feature.properties[term][1] == 1 ) {
-                            counter++;
-                        }
-                        if (supportFilter == 'secondary' && layer.feature.properties[term][2] == 1 ) {
-                            counter++;
-                        }
-                        if (supportFilter == 'wfdsupport' && layer.feature.properties[term][3] == 1 ) {
-                            counter++;
-                        }
-                        if (supportFilter == 'systems' && layer.feature.properties[term][4] == 1 ) {
-                            counter++;
-                        }
-                    }
-
-                    i++ //add to i
-
-                    //if it gets to the end, and all agencies have the selected terms  
-                    //if counter matches the number of terms
-                    if (i == arrayLength && i == counter){
-                        if (i == arrayLength && counter == arrayLength ){
-                            console.log (i + '  --> ' + arrayLength);
-                            layer.setStyle({fillColor : usaidLightBlue});
-                        }
-                    }
-                    
-                    else {
-                        layer.setStyle({fillColor : 'gray'})
-                    }
-    
-
-                }//end for
-
-            }
-
-        });
-
-    } // function change filter
 
     /*
      * Install Note: Change url to location of pin.png and pin_red.png   
@@ -485,7 +334,13 @@ function onEachFeature(feature, layer) {
         "fillOpacity": 1.0
     };
 
+    let selectStyle = {
+        color: usaidRed,
+        className : "select-test",
+        weight: 1.5
+    }
 
 
 
-});
+
+}); //document ready
