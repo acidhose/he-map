@@ -21,14 +21,15 @@ $(document).ready(function () {
 			let description = data[i].description;
             let country = data[i].country;
             let sector = data[i].sector;
+            let subsector = data[i].subsector;
             countries.push(country);
-            countries2.push([country, sector]);
+            countries2.push([country, sector, subsector]);
         });
 
         var countriesList = [...new Set(countries)];
         var countriesList2 = [...new Set(countries2)];
-        console.log("countries list ---v");
-        console.log(countriesList2);
+        // console.log("countries list ---v");
+        // console.log(countriesList2);
 
         /* Build Select List */
         let countrySelect = '<option name="none">Select Country or Region</option>';
@@ -54,7 +55,7 @@ $(document).ready(function () {
             }
 
             //go through json to find all matching countries
-            let programResult = '<div class="current-country">Region: ' + selectedCountry + '</div>';    
+            let programResult = '<div class="current-country">Region: ' + selectedCountry + '<div class="current-country-note">*Projects shaded blue match the selected sector</div></div>';
 
             $.each(data, function(i, item) {
                 var country = data[i].country;
@@ -73,7 +74,7 @@ $(document).ready(function () {
                     let subsector = data[i].subsector;
 
                     // add to result
-                    programResult += '<div class="wrap"><h2 class="project-name">' + name + '</h2>';
+                    programResult += '<div class="wrap"><h2 class="project-name" data-sector="' + sector + '" data-subsector="' + subsector + '">' + name + '</h2>';
                     programResult += '<div><span class="project-description">' + description + '</span>';
                     programResult += '<span class="project-dates">' + start + ' &ndash; ' + end + '</span>';
                     if (subawardees!='') {programResult += '<span class="project-subawardees"><strong>Subawardees:</strong> ' + subawardees + '</span>';}
@@ -140,13 +141,13 @@ $(document).ready(function () {
                 }
             });
             
+            highlightProjects(); //highlight projects that are now shown
 
         });
         
     //on change filter / begin function change filter
 
     $('#sector-filter').on('change', function() {
-        // console.log(geojson);
         changeFilter();
     });
 
@@ -154,7 +155,7 @@ $(document).ready(function () {
         console.log("changed!");
         // const terms = '';
 
-        supportFilter = $('#sector-filter').val();
+        let supportFilter = $('#sector-filter').val();
         // console.log(supportFilter);
 
         geojson.eachLayer(function (layer) {
@@ -167,17 +168,26 @@ $(document).ready(function () {
             else {
                 if (supportProperty){
                     if ( supportProperty.includes(supportFilter) ){
-                    // if (supportFilter == supportProperty){
-                        // console.log ("YES!!");
                         layer.setStyle({fillColor : usaidLightBlue});
                     }
-                    // if (supportFilter != supportProperty){
-                    // }
                 }
             }
         });
+        highlightProjects ()
     } // end function change filter
-        
+    
+    function highlightProjects (){
+        let supportFilter = $('#sector-filter').val();
+
+        //reset classes
+        $("#projects-wrapper h2").each(function() { $(this).removeClass('highlighted-accordian'); });
+        $("#projects-wrapper h2").each(function() {
+            if ( $(this).attr("data-sector") == supportFilter || $(this).attr("data-subsector") == supportFilter ){
+                $(this).addClass('highlighted-accordian');
+            }
+        });
+    }
+
         var othercountries = '';
         //iterate through countriesMap variable
         // var geojson = L.geoJSON(countriesMap, {style: solidStyle, onEachFeature: onEachFeature})
@@ -198,14 +208,19 @@ $(document).ready(function () {
                     countriesList2.forEach(e => {
                         if (e[0] == thislayercountry && e[1] !== undefined) { //if country matches other list
                             let supportTerm = e[1];
+                            let subSupportTerm = e[2];
                             // layer.feature.properties["support"] += e[1] + ', ';
 
                             //could be improved to not add this every time
                             if ( supportHolder.includes(supportTerm) == false){
                                 supportHolder.push(e[1]);
-                                layer.feature.properties["support"] = supportHolder;
+                                // layer.feature.properties["support"] = supportHolder;
                             }
-                            
+                            if ( supportHolder.includes(subSupportTerm) == false){
+                                supportHolder.push(e[2])
+                            }
+                            layer.feature.properties["support"] = supportHolder;
+
                             int++; 
                         }
                     });

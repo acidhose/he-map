@@ -25,6 +25,12 @@ font-size: 1.5em;
 color: #999;
 }
 
+.current-country-note {
+  text-align: right;
+  font-size: .5em;
+  font-style: italic;
+}
+
 .project-description, .project-dates, .project-implementorname, .project-edulevel, .project-edulevel, .project-agency {
 margin-bottom: 1em;
 }
@@ -105,11 +111,13 @@ z-index:999;
 .ui-state-hover {
 border:none;
 }
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
 
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
 border: none;
+/* background: #0067B9; */
 background: #A7C6ED;
 font-weight: inherit;
+color: white;
 }
 
 .ui-corner-all, .ui-corner-top, .ui-corner-left, .ui-corner-tl {
@@ -131,6 +139,15 @@ border-bottom-left-radius: 0;
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
 border: none;
 }
+
+h2.highlighted-accordian {
+  background: #0067B9;
+  color: white;
+}
+h2.highlighted-accordian.ui-accordion-header-collapsed .ui-accordion-header-icon {
+  filter: contrast(100) invert(100);
+}
+
 /* end overrides for jquery UI */
 
 
