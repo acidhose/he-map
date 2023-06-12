@@ -296,7 +296,8 @@ $(document).ready(function () {
     
 
     // leafletjs init map
-    var map = L.map('map').setView([0, 0], 2);
+    var map = L.map('map').setView([10, 0], 1.5);
+    // var map = L.map('map').setView([0, 0], 2);
 
     // load a tile layer
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
@@ -306,17 +307,36 @@ $(document).ready(function () {
     }).addTo(map);
 
     /* Filter Specific */
-    var mapfilters = L.control({ position: "bottomright" });
+    var mapfilters = L.control({ position: "topright" });
 
     mapfilters.onAdd = function(map) {
         var filtercontrol = L.DomUtil.create('div', 'mapfilter');
-        filtercontrol.innerHTML += '<h4>Sector:</h4>';
+        filtercontrol.innerHTML += '<span class="sector-title">Sector: </span>';
         filtercontrol.innerHTML += '<select id="sector-filter"><option value="none">None Selected</option><option value="Agriculture & Food Security">Agriculture & Food Security</option><option value="Climate & Environment">Climate & Environment</option><option value="Democracy & Governance">Democracy & Governance</option><option value="Economic Growth">Economic Growth</option><option value="Education">Education</option><option value="Energy">Energy</option><option value="Global Health">Global Health</option><option value="Media & Journalism">Media & Journalism</option><option value="Research & Innovation">Research & Innovation</option><option value="Science, Technology, Engineering, and Mathematics (STEM)">Science, Technology, Engineering, and Mathematics (STEM)</option><option value="Water & Sanitation">Water & Sanitation</option><option value="Youth">Youth</option></select>';
 
         return filtercontrol;
     };
     
     mapfilters.addTo(map);
+
+    /* Legend */
+
+    /* Legend specific */
+    var legend = L.control({ position: "bottomleft" });
+
+    legend.onAdd = function(map) {
+        var legendKey = L.DomUtil.create("div", "legend");
+        legendKey.innerHTML += '<p><i style="background: #A7C6ED"></i><span> Country includes activity with the selected sector</span><br></p>';
+        legendKey.innerHTML += '<p><i style="background: #6C6463"></i><span> Country does not include activity with the selected sector</span><br></p>';
+        return legendKey;
+    };
+
+    legend.addTo(map);
+
+
+
+
+
     $(".mapfilter").show();
 
 
@@ -327,7 +347,6 @@ $(document).ready(function () {
     //note: bluePin & redPin need to be set up in doc header
     var pinIcon = L.icon({
       iconUrl: bluePin,
-      //iconUrl: 'scripts/pin.png',
       iconSize: [36,36],
       iconAnchor: [18, 36],
       popupAnchor:  [0, -27]
@@ -335,7 +354,6 @@ $(document).ready(function () {
 
     var pinIconSelected = L.icon({
       iconUrl: redPin,
-      //iconUrl: 'scripts/pin_red.png',
       iconSize: [36,36],
       iconAnchor: [18, 36],
       popupAnchor:  [0, -27]

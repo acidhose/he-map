@@ -349,11 +349,26 @@ text-align:center;
   display: none;
 }
 
+.sector-title{
+  font-size: 13.3px;
+  font-weight: bold;
+}
+
+.legend{
+  padding-left: 10px;
+  padding-bottom: 2px;
+}
+
+.legend p {
+  margin: 5px 0;
+}
+
 .legend i, .legend2 i {
   width: 18px;
   height: 18px;
   float: left;
   margin: 0 8px 0 0;
+  border: 1.2px solid white;
 }
 
 .legend2, .mapfilter{
@@ -361,7 +376,7 @@ text-align:center;
 }
 
 .leaflet-control h4 {
-  margin: 0 0 1.2em;
+  margin: 0 0 .2em;
 }
 
 .mapfilter.leaflet-control {
