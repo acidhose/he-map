@@ -77,10 +77,10 @@ $(document).ready(function () {
                     programResult += '<div class="wrap"><h2 class="project-name" data-sector="' + sector + '" data-subsector="' + subsector + '">' + name + '</h2>';
                     programResult += '<div><span class="project-description">' + description + '</span>';
                     programResult += '<span class="project-dates">' + start + ' &ndash; ' + end + '</span>';
-                    if (subawardees!='') {programResult += '<span class="project-subawardees"><strong>Subawardees:</strong> ' + subawardees + '</span>';}
                     programResult += '<br><div><strong>Sector:</strong> ' + sector + '</span></div>';
                     if (subsector!='') {programResult += '<div><strong>Subsector:</strong> ' + subsector + '</div>';}
                     if (implementorname!='') {programResult += '<span class="project-implementorname"><strong>Implementor:</strong> ' + implementorname + '</span>';}
+                    if (subawardees!='') {programResult += '<span class="project-subawardees"><strong>Subawardees:</strong> ' + subawardees + '</span>';}
                     if (link!='') {programResult += '<br><span class="project-subawardees"><a href="' + link + '" target="_blank" title="Link opens in a new window">Link to Project</a></span>';}
                     programResult += '</div></div>';
                 }
@@ -153,10 +153,8 @@ $(document).ready(function () {
 
     function changeFilter (){
         console.log("changed!");
-        // const terms = '';
 
         let supportFilter = $('#sector-filter').val();
-        // console.log(supportFilter);
 
         geojson.eachLayer(function (layer) {
             let supportProperty = layer.feature.properties["support"];
@@ -195,12 +193,8 @@ $(document).ready(function () {
             .eachLayer(function (layer) {
                 let thislayercountry = layer.feature.properties.name;
                 var int = 0;
-                
-                // console.log(countriesList2); 
-                // console.log(thislayercountry); 
 
                 if (exists(countriesList2, thislayercountry) ){ //checking 2 dim array    
-                // if (exists(countriesList2, thislayercountry) ){ //checking 2 dim array    
                     layer.addTo(map).setStyle(solidStyle); //adds countries to map
                     
                     let supportHolder =  [];
@@ -209,7 +203,6 @@ $(document).ready(function () {
                         if (e[0] == thislayercountry && e[1] !== undefined) { //if country matches other list
                             let supportTerm = e[1];
                             let subSupportTerm = e[2];
-                            // layer.feature.properties["support"] += e[1] + ', ';
 
                             //could be improved to not add this every time
                             if ( supportHolder.includes(supportTerm) == false){
@@ -316,12 +309,9 @@ $(document).ready(function () {
 
         return filtercontrol;
     };
-    
     mapfilters.addTo(map);
 
-    /* Legend */
-
-    /* Legend specific */
+    /* Legend Specific */    
     var legend = L.control({ position: "bottomleft" });
 
     legend.onAdd = function(map) {
@@ -330,11 +320,7 @@ $(document).ready(function () {
         legendKey.innerHTML += '<p><i style="background: #6C6463"></i><span> Country does not include activity with the selected sector</span><br></p>';
         return legendKey;
     };
-
     legend.addTo(map);
-
-
-
 
 
     $(".mapfilter").show();
@@ -372,8 +358,5 @@ $(document).ready(function () {
         className : "select-test",
         weight: 1.5
     }
-
-
-
 
 }); //document ready
