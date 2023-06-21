@@ -77,11 +77,11 @@ $(document).ready(function () {
                     programResult += '<div class="wrap"><h2 class="project-name" data-sector="' + sector + '" data-subsector="' + subsector + '">' + name + '</h2>';
                     programResult += '<div><span class="project-description">' + description + '</span>';
                     programResult += '<span class="project-dates">' + start + ' &ndash; ' + end + '</span>';
-                    programResult += '<br><div><strong>Sector:</strong> ' + sector + '</span></div>';
-                    if (subsector!='') {programResult += '<div><strong>Subsector:</strong> ' + subsector + '</div>';}
+                    programResult += '<br><div class="project-sector"><strong>Sector:</strong> ' + sector + '</span></div>';
+                    if (subsector!='') {programResult += '<div class="project-subsector"><strong>Subsector:</strong> ' + subsector + '</div>';}
                     if (implementorname!='') {programResult += '<span class="project-implementorname"><strong>Implementor:</strong> ' + implementorname + '</span>';}
                     if (subawardees!='') {programResult += '<span class="project-subawardees"><strong>Subawardees:</strong> ' + subawardees + '</span>';}
-                    if (link!='') {programResult += '<br><span class="project-subawardees"><a href="' + link + '" target="_blank" title="Link opens in a new window">Link to Project</a></span>';}
+                    if (link!='') {programResult += '<br><span class="project-link"><a href="' + link + '" target="_blank" title="Link opens in a new window">Link to Project</a></span>';}
                     programResult += '</div></div>';
                 }
 

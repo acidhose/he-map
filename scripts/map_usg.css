@@ -31,7 +31,14 @@ color: #999;
   font-style: italic;
 }
 
-.project-description, .project-dates, .project-implementorname, .project-edulevel, .project-edulevel, .project-agency {
+.project-description, 
+.project-dates, 
+.project-implementorname, 
+.project-edulevel, 
+.project-agency,
+.project-link,
+.project-sector,
+.project-subsector {
 margin-bottom: 1em;
 }
 
